@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://b23xj07n3jh7w"]
+
+[ext_resource type="Script" path="res://scenes/scripts/bong_ball.gd" id="1_idc0i"]
+[ext_resource type="Texture2D" uid="uid://cosxf3ry8aj2i" path="res://assets/ball.png" id="1_x7bhc"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uohr2"]
+radius = 8.0
+
+[node name="BongBall" type="Node2D"]
+script = ExtResource("1_idc0i")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_uohr2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_x7bhc")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

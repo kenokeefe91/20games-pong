@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://3hsn3mpk46w"]
+
+[ext_resource type="Texture2D" uid="uid://dwktihfwep85l" path="res://assets/paddle.png" id="1_jsmog"]
+[ext_resource type="Script" path="res://scenes/scripts/paddle.gd" id="1_uo0jf"]
+[ext_resource type="Script" path="res://scenes/scripts/paddle_collider.gd" id="3_p2e8s"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_efgtl"]
+size = Vector2(20, 100)
+
+[node name="Paddle" type="Node2D"]
+position = Vector2(12, 11)
+script = ExtResource("1_uo0jf")
+metadata/_edit_group_ = true
+
+[node name="PaddleSprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_jsmog")
+
+[node name="PaddleCollision" type="Area2D" parent="."]
+script = ExtResource("3_p2e8s")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PaddleCollision"]
+shape = SubResource("RectangleShape2D_efgtl")
+
+[connection signal="area_entered" from="PaddleCollision" to="PaddleCollision" method="_on_area_entered"]

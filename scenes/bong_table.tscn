@@ -1,0 +1,53 @@
+[gd_scene load_steps=8 format=3 uid="uid://cfmirmknuj22b"]
+
+[ext_resource type="PackedScene" uid="uid://3hsn3mpk46w" path="res://scenes/paddle.tscn" id="1_skqvd"]
+[ext_resource type="PackedScene" uid="uid://b23xj07n3jh7w" path="res://scenes/bong_ball.tscn" id="2_64wgg"]
+[ext_resource type="Script" path="res://scenes/scripts/simple_ia.gd" id="3_31ilp"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_u37ki"]
+distance = -645.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_l78oc"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_qfdrm"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_t87yj"]
+normal = Vector2(-1, 0)
+
+[node name="BongTable" type="Node2D"]
+
+[node name="PlayerPaddle" parent="." instance=ExtResource("1_skqvd")]
+position = Vector2(30, 200)
+
+[node name="BongBall" parent="." node_paths=PackedStringArray("player_paddle", "ia_paddle") instance=ExtResource("2_64wgg")]
+player_paddle = NodePath("../PlayerPaddle")
+ia_paddle = NodePath("../IaPaddle")
+
+[node name="IaPaddle" parent="." node_paths=PackedStringArray("ball") instance=ExtResource("1_skqvd")]
+position = Vector2(1115, 200)
+script = ExtResource("3_31ilp")
+ball = NodePath("../BongBall")
+
+[node name="GameWall" type="Area2D" parent="."]
+
+[node name="BottomCollision" type="CollisionShape2D" parent="GameWall"]
+position = Vector2(25, 3)
+shape = SubResource("WorldBoundaryShape2D_u37ki")
+
+[node name="TopCollision" type="CollisionShape2D" parent="GameWall"]
+shape = SubResource("WorldBoundaryShape2D_l78oc")
+
+[node name="MarkingAreaPlayerOne" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MarkingAreaPlayerOne"]
+position = Vector2(0, 190)
+shape = SubResource("WorldBoundaryShape2D_qfdrm")
+
+[node name="MarkingAreaPlayerTwo" type="Area2D" parent="."]
+position = Vector2(1153, 249)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MarkingAreaPlayerTwo"]
+position = Vector2(1, 0)
+shape = SubResource("WorldBoundaryShape2D_t87yj")
