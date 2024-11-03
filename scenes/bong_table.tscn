@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://cfmirmknuj22b"]
+[gd_scene load_steps=9 format=3 uid="uid://cfmirmknuj22b"]
 
 [ext_resource type="PackedScene" uid="uid://3hsn3mpk46w" path="res://scenes/paddle.tscn" id="1_skqvd"]
 [ext_resource type="PackedScene" uid="uid://b23xj07n3jh7w" path="res://scenes/bong_ball.tscn" id="2_64wgg"]
 [ext_resource type="Script" path="res://scenes/scripts/simple_ia.gd" id="3_31ilp"]
+[ext_resource type="Script" path="res://scenes/scripts/scoring.gd" id="4_641na"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_u37ki"]
 distance = -645.0
@@ -45,9 +46,27 @@ shape = SubResource("WorldBoundaryShape2D_l78oc")
 position = Vector2(0, 190)
 shape = SubResource("WorldBoundaryShape2D_qfdrm")
 
-[node name="MarkingAreaPlayerTwo" type="Area2D" parent="."]
+[node name="MarkingAreaIA" type="Area2D" parent="."]
 position = Vector2(1153, 249)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MarkingAreaPlayerTwo"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MarkingAreaIA"]
 position = Vector2(1, 0)
 shape = SubResource("WorldBoundaryShape2D_t87yj")
+
+[node name="ScoreDisplayer" type="Node2D" parent="."]
+script = ExtResource("4_641na")
+
+[node name="ScorePlayer" type="Label" parent="ScoreDisplayer"]
+offset_right = 50.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 40
+
+[node name="ScoreIA" type="Label" parent="ScoreDisplayer"]
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 40
+
+[connection signal="pause_game" from="BongBall" to="ScoreDisplayer" method="show_score"]
+[connection signal="point_for_ia" from="BongBall" to="ScoreDisplayer" method="mark_point_for_ia"]
+[connection signal="point_for_player" from="BongBall" to="ScoreDisplayer" method="mark_point_for_player"]
+[connection signal="stop_pause" from="BongBall" to="ScoreDisplayer" method="hide_score"]
